@@ -9,6 +9,13 @@ async function getNeighbour(code){
     return dataNeighbour[0];
 
 }
+
+function clearFields(){
+    document.getElementById('bordering-countries').innerHTML="";
+    document.getElementById('country-info').innerHTML="";
+    document.getElementById('error-message').innerHTML="";
+
+}
 async function searchCountry(countryName) {
     try {
         // Show loading spinner
@@ -21,7 +28,7 @@ async function searchCountry(countryName) {
             if (response.status === 400) {
                 message = "Bad request — the country code is invalid.";
             } 
-            else if (response.status === 401 || res.status === 403) {
+            else if (response.status === 401 || response.status === 403) {
                 message = "Access denied — authorization failed.";
             } 
             else if (response.status === 404) {
@@ -31,9 +38,9 @@ async function searchCountry(countryName) {
                 message = "Server error — try again later.";
             } 
             else {
-                message = `Unexpected error (status ${res.status}).`;
+                message = `Unexpected error (status ${response.status}).`;
             }
-            document.getElementById('country-info').innerHTML = `
+            document.getElementById('error-message').innerHTML = `
                 <p><strong>Error:</strong> ${message}</p>`;
             return;
         }
@@ -67,9 +74,10 @@ async function searchCountry(countryName) {
         // Update bordering countries section
     } catch (error) {
         // Show error message
-         document.getElementById('country-info').innerHTML = `
+         document.getElementById('error-message').innerHTML = `
                 <p><strong>Error:</strong> ${error}</p>`;
         spinner.classList.add("hidden");
+        
 
     } finally {
         // Hide loading spinner
@@ -79,5 +87,15 @@ async function searchCountry(countryName) {
 
 document.getElementById('search-btn').addEventListener('click', () => {
     const country = document.getElementById('country-input').value;
+    clearFields();
     searchCountry(country);
 });
+
+document.getElementById("country-input").addEventListener("keydown", function(event)
+{
+if(event.key === "Enter"){
+    const country = document.getElementById('country-input').value;
+    clearFields();
+    searchCountry(country);
+}
+})

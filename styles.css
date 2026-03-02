@@ -1,9 +1,10 @@
 .spinner {
     /* Your styling */
     margin-top: 20px;
-    width: 40px;
+    width: 200px;
+    border-radius: 100px;
     border: 4px solid #146bee;
-    height: 40px;
+    height: 200px;
     animation: spin 1s linear infinite; /* Required */
 }
 @keyframes spin {
@@ -24,6 +25,8 @@
 }
 .error {
     color: red/* error color */;
+    text-color: red;
+    
     /* Additional styling */
 }
 .hidden {
